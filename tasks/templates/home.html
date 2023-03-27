@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="container py-5">
+    <section class="card card-body">
+        <h1 class="display-1 text-center">App Eventos</h1>
+        <p> 
+            Bienvenido a App Eventos, la plataforma en línea 
+            para encontrar y organizar eventos emocionantes
+            en tu área. Explora los eventos disponibles y 
+            crea tus propios eventos para compartir con la comunidad 
+        </p>
+        <div class="text-center">
+            {% if user.is_authenticated %}
+            {% else %}
+                <a href="{% url 'login' %}" class="btn btn-outline-primary btn-lg mr-3">Log In</a>
+                <a href="{% url 'signup' %}" class="btn btn-primary btn-lg">Sign Up</a>
+            {% endif %}
+        </div>
+    </section>
+    
+    <section class="row my-5">
+        <div class="col-md-4">
+            <div class="card">
+                <img src="D:\SEXTO SEMESTRE\Desarrollo\boda.jpg" alt="Bodas" class="card-img-top">
+                <div class="card-body">
+                    <h2 class="card-title">Bodas</h2>
+                    <p class="card-text">Descubre nuestras opciones para planificar la boda de tus sueños. Desde lugares de celebración hasta el diseño de invitaciones, ¡nosotros nos encargamos de todo!</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <img src="D:\SEXTO SEMESTRE\Desarrollo\fiesta.jpg" alt="Fiestas" class="card-img-top">
+                <div class="card-body">
+                    <h2 class="card-title">Fiestas</h2>
+                    <p class="card-text">Celebra cualquier ocasión especial con nuestras opciones de planificación de fiestas. Desde cumpleaños hasta despedidas de soltero, ¡tenemos todo lo que necesitas!</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <img src="D:\SEXTO SEMESTRE\Desarrollo\conferencia.jpg" alt="Conferencias" class="card-img-top">
+                <div class="card-body">
+                    <h2 class="card-title">Conferencias</h2>
+                    <p class="card-text">Asiste a las conferencias más importantes y descubre las últimas tendencias en tu campo de interés. ¡Regístrate hoy mismo para asegurar tu lugar!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

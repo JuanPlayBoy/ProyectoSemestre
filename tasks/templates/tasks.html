@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content%}
+<main class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h1 class="mt-5 text-center display-3">Tareas</h1>
+
+            <ul class="list-group">
+                {% for task in tasks %}
+                <a href="{% url 'task_detail' task.id %}" class="list-group-item"> 
+                
+                    
+                    <header class="d-flex justify-content-between">
+                        {% if task.importante %}
+                            <h1 class="fw-bold-3"> {{task.title}} <strong style="color: crimson;">*</strong></strong></h1>
+                        
+
+                        {% else %}
+                            <h1 class="fw-bold-3"> {{task.title}}</h1>
+                        
+                        {% endif %}
+                        <p> {{task.user.username}} </p>
+                    </header>
+                
+                    <p> {{task.descripcion}} </p>
+                    
+                    <p> {{task.fechaLim|date:'M j Y:i'}} </p>
+            
+                
+                </a>
+                {% endfor %}
+            </ul>
+            <form action="{% url 'crear_task' %}"  method="GET">
+                {% csrf_token %}
+                <button class="btn btn-primary mt-3">Nueva Tarea</button>
+            </form>
+        </div>
+
+
+
+    </div>
+</main>
+{% endblock %}

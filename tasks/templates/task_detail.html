@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content%}
+<main class="container">
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <h1 class="display-1 text-center mt-5">{{task.title}}</h1>
+
+            {{error}}
+            <form method="post">
+                {% csrf_token %}
+                {{form.as_p}}
+                <button class="btn btn-primary">Guardar</button>
+            </form>
+
+            <form action="{% url 'complete_task' task.id %}"  method="post">
+                {% csrf_token %}
+                <button class="btn btn-outline-primary mt-1">Completada</button>
+            </form>
+
+            {% if not task.fechaLim is none %}
+                <form action="{% url 'rehacer_task' task.id %}"  method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-secondary mt-1">Rehacer</button>
+                </form>
+            {% endif %}
+
+            
+            <form action="{% url 'delete_task' task.id %}"  method="post">
+                {% csrf_token %}
+                <button class="btn btn-danger mt-1">Eliminar</button>
+            </form>
+
+
+
+        </div>
+    </div>
+</main>
+
+{% endblock %}

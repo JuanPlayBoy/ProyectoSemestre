@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content%}
+<main class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h1 class="mt-5 text-center display-3">Eventos</h1>
+
+            <ul class="list-group">
+                {% for evento in eventos %}
+                <a href="{% url 'evento_detail' evento.id %}" class="list-group-item"> 
+                    
+                    
+                    <header class="d-flex justify-content-between">
+                           <h1 class="fw-bold-3"> {{evento.nombre}}</h1>
+                        <p> {{evento.user.username}} </p>
+                    </header>
+                
+                    <p> {{evento.descripcion}} </p>
+                    
+                    <p> {{evento.fecha|date:'M j Y:i'}} </p>
+            
+                
+                </a>
+                {% endfor %}
+            </ul>
+            <form action="{% url 'evento_crear' %}"  method="POST">
+                {% csrf_token %}
+                <button class="btn btn-primary mt-3">Nuevo Evento</button>
+            </form>
+        </div>
+
+
+
+    </div>
+</main>
+{% endblock %}
