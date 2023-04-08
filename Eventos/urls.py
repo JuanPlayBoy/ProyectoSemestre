@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from tasks.views import home, signup, signin, signout, tasks, task_detail, crear_task, rehacer_task, tasks_completed, delete_task, complete_task
-from event.views import evento_crear, evento_rehacer, evento_eliminar, evento, evento_completar, evento_detail, eventos_completados
+from event.views import evento_crear, evento_rehacer, evento_eliminar, eventos, evento_completar, evento_detail, eventos_completados
 
 
 
@@ -38,11 +38,11 @@ urlpatterns = [
     path('tasks/<int:task_id>/eliminada/', delete_task, name = 'delete_task'),
 
     #Para eventos
-    path('eventos/', evento, name= 'evento'),
+    path('eventos/', eventos, name= 'eventos'),
     path('eventos-completos/', eventos_completados, name= 'eventos_completados'),   
     path('eventos/crear/', evento_crear, name = 'evento_crear'),
-    path('eventos/<int:eventos_id>/', evento_detail, name = 'evento_detail'),
-    path('eventos/<int:eventos_id>/completado/', evento_completar, name = 'evento_completar'),
-    path('eventos/<int:eventos_id>/rehecho/', evento_rehacer, name = 'evento_rehacer'),
-    path('eventos/<int:eventos_id>/eliminado/', evento_eliminar, name = 'evento_eliminar'),
+    path('eventos/<int:evento_id>/', evento_detail, name = 'evento_detail'),
+    path('eventos/<int:evento_id>/completado/', evento_completar, name = 'evento_completar'),
+    path('eventos/<int:evento_id>/rehecho/', evento_rehacer, name = 'evento_rehacer'),
+    path('eventos/<int:evento_id>/eliminado/', evento_eliminar, name = 'evento_eliminar'),
 ]

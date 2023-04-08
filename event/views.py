@@ -7,14 +7,14 @@ from django.utils import timezone
 
 # Create your views here.
 @login_required
-def evento(request):
-    evento = Evento.objects.filter(user=request.user, fecha__isnull=True)
-    return render(request, 'evento.html', {'evento': evento})
+def eventos(request):
+    eventos = Evento.objects.filter(user=request.user, fecha__isnull=True)
+    return render(request, 'eventos.html', {'eventos': eventos})
 
 @login_required
 def eventos_completados(request):
-    evento = Evento.objects.filter(user=request.user, fecha__isnull=False)
-    return render(request, 'evento.html', {'evento': evento})
+    eventos = Evento.objects.filter(user=request.user, fecha__isnull=False)
+    return render(request, 'eventos.html', {'evento': eventos})
 
 @login_required
 def evento_crear(request):
@@ -48,10 +48,10 @@ def evento_detail(request, evento_id):
             evento = get_object_or_404(Evento, pk=evento_id, user = request.user)
             form = FormularioEvento(request.POST, instance=evento)
             form.save()
-            return redirect('evento')
+            return redirect('eventos')
         except ValueError:
             return render (request, 'evento_detail.html', {
-                'task': evento, 
+                'evento': evento, 
                 'form': form, 
                 'error': 'Error actualizando el evento'})
 
@@ -61,14 +61,14 @@ def evento_completar(request, evento_id):
     if request.method == 'POST':
         evento.fecha = timezone.now()
         evento.save()
-        return redirect ('evento')
+        return redirect ('eventos')
 
 @login_required
 def evento_eliminar(request, evento_id):
     evento = get_object_or_404(Evento, pk=evento_id, user=request.user)
     if request.method == 'POST':
         evento.delete()
-        return redirect ('evento')
+        return redirect ('eventos')
     
 @login_required
 def evento_rehacer(request, evento_id):
@@ -76,4 +76,4 @@ def evento_rehacer(request, evento_id):
     if request.method == 'POST':
         evento.fecha = None
         evento.save()
-        return redirect ('evento')
+        return redirect ('eventos')
