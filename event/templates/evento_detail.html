@@ -3,10 +3,8 @@
 {% block content%}
 <main class="container">
     <div class="row">
-        <div class="col-md-4 offset-md-4">
-            <h1 class="display-1 text-center mt-5">{{evento.nombre}}</h1>
-
-            
+        <div class="col-md-8 offset-md-2">
+            <h1 class="display-1 text-center mt-5">{{evento.nombre}}</h1>           
             <form method="post">
                 {% csrf_token %}
                 {{form.as_p}}
@@ -23,9 +21,21 @@
                     {% csrf_token %}              
                     <button class="btn btn-secondary mt-3" >Ver Tareas Asociadas</button>
                 </form>
-            {% endif %}
+
+                <form action="{% url 'user_por_evento' evento.id %}"  method="POST">
+                    {% csrf_token %}              
+                    <button class="btn btn-secondary mt-1" >Ver Usuarios</button>
+                </form>
+
+                <form action="{% url 'descarga_csv' evento.id %}"  method="POST">
+                    {% csrf_token %}              
+                    <button class="btn btn-secondary mt-1" >Descargar Usuarios CSV</button>
+                </form>
+            {% endif %}       
         </div>
     </div>
 </main>
 
 {% endblock %}
+
+

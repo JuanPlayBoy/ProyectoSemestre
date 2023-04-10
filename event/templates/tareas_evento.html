@@ -32,13 +32,12 @@
                 {% endfor %}
             </ul>
             {% if '/eventos-completos/' not in request.path %}
-                <form action="{% url 'user_por_evento' evento.id %}"  method="POST">
+                <form action="{% url 'eventos' %}"  method="POST">
                     {% csrf_token %}              
-                    <button class="btn btn-secondary mt-3" >Ver Usuarios</button>
+                    <button class="btn btn-secondary mt-3" >Atrás</button>
                 </form>
             {% endif %}
         </div>
-
     </div>
 </main>
 {% endblock %}

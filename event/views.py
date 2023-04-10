@@ -6,6 +6,8 @@ from .forms import FormularioEvento
 from .models import Evento
 from tasks.models import Task
 from django.contrib.auth.models import User
+import csv 
+from django.http import HttpResponse
 
 
 
@@ -79,5 +81,21 @@ def task_por_evento(request, evento_id):
 def user_por_evento(request, evento_id):
     eventos = Evento.objects.get(id=evento_id)
     tasks = Task.objects.filter(evento=eventos)
-    users = [task.user for task in tasks]
-    return render(request, 'user_evento.html', {'tasks': tasks, 'eventos': eventos, 'users': users})
+    users = {task.user for task in tasks}
+    return render(request, 'user_evento.html', {'users': users, 'eventos': eventos})
+
+@login_required
+def descarga_csv(request, evento_id):
+    eventos = Evento.objects.get(id=evento_id)
+    tasks = Task.objects.filter(evento=eventos)
+    users = {task.user for task in tasks}
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = f'attachment; filename="users_{eventos.nombre}.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['Nombre', 'E-mail'])
+    for user in users:
+        writer.writerow([user.username, user.email])
+
+    return response
