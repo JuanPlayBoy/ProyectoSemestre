@@ -1,25 +1,29 @@
 {% extends 'base.html' %}
 
 {% block content%}
+
 <main class="container">
     <div class="row">
         <div class="col-md-6 offset-md-3">
             <h1 class="mt-5 text-center display-3">Eventos</h1>
-
             <ul class="list-group">
                 {% for evento in eventos %}
                 <a href="{% url 'evento_detail' evento.id %}" class="list-group-item"> 
                     
-                    
                     <header class="d-flex justify-content-between">
-                           <h1 class="fw-bold-3"> {{evento.nombre}}</h1>
-                        <p> {{evento.user.username}} </p>
+                        <h1 class="fw-bold-3"> {{evento.nombre}}</h1>
+                        {% if evento.fecha < date.today %}
+                            <p class="mt-2" style="color: brown;">COMPLETADO</p>
+                        {% else %}
+                            <p class="mt-2"> {{evento.fecha}} </p>
+                        {% endif %}
                     </header>
-                
+
+                    
                     <p> {{evento.descripcion}} </p>
                     
-                    <p> {{evento.fecha|date:'M j Y:i'}} </p>
-            
+                    <p> {{evento.fecha}} </p>
+                    
                 
                 </a>
                 {% endfor %}
@@ -28,10 +32,21 @@
                 {% csrf_token %}
                 <button class="btn btn-primary mt-3">Nuevo Evento</button>
             </form>
+
+            {% if '/eventos-completos/' not in request.path %}
+                <form action="{% url 'eventos_completados' %}"  method="POST">
+                    {% csrf_token %}              
+                    <button class="btn btn-secondary mt-3" >Eventos Anteriores</button>
+                </form>
+            {% endif %}
+
+            {% if '/eventos/' not in request.path %}
+                <form action="{% url 'eventos' %}"  method="POST">
+                    {% csrf_token %}              
+                    <button class="btn btn-secondary mt-3" >Atrás</button>
+                </form>
+            {% endif %}
         </div>
-
-
-
     </div>
 </main>
 {% endblock %}

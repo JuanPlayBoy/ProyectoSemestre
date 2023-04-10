@@ -9,3 +9,6 @@ class Evento(models.Model):
     fecha= models.DateField(null = True, blank = True)   
     ubicacion = models.CharField(max_length=200)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.nombre

@@ -1,9 +1,11 @@
+from datetime import date
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.contrib.auth import login, logout, authenticate
+from event.models import Evento
 from .froms import TaskForm
 from .models import Task
 from django.utils import timezone
@@ -42,7 +44,7 @@ def signup(request):
 @login_required
 def tasks(request):
     tasks = Task.objects.filter(user=request.user, fechaLim__isnull=True)
-    return render(request, 'tasks.html', {'tasks': tasks})
+    return render(request, 'tasks.html', {'tasks': tasks, 'eventos': Evento})
 
 @login_required
 def tasks_completed(request):
@@ -51,22 +53,26 @@ def tasks_completed(request):
 
 @login_required
 def crear_task(request):
-
+    eventos = Evento.objects.filter(user=request.user, fecha__gte=date.today())
     if request.method == 'GET':
         return render(request, 'crear_tasks.html', {
-            'form': TaskForm
+            'form': TaskForm,
+            'eventos': eventos
         })
     else:
         try:
             form = TaskForm(request.POST)
             new_task = form.save(commit=False)
             new_task.user = request.user
+            new_task.evento = form.cleaned_data['evento']
             new_task.save()
             return redirect('tasks')
+        
         except ValueError:
             return render(request, 'crear_tasks.html', {
                 'form': TaskForm,
-                'error': 'Por favor, ingrese datos validos'
+                'error': 'Por favor, ingrese datos validos',
+                'eventos': eventos
             })
 
 

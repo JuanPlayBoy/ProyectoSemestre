@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from event.models import Evento
 
 # Create your models here.
 class Task(models.Model):
@@ -9,4 +10,7 @@ class Task(models.Model):
     fechaLim= models.DateTimeField(null = True, blank = True)
     importante = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    #evento = models.ForeignKey(Evento, on_delete=models.CASCADE)
+    evento = models.ForeignKey(Evento, blank=True , on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.title

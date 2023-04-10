@@ -1,20 +1,25 @@
+from datetime import date
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.decorators import login_required
 from .forms import FormularioEvento
 from .models import Evento
-from django.utils import timezone
+from tasks.models import Task
+from django.contrib.auth.models import User
+
+
 
 # Create your views here.
 @login_required
 def eventos(request):
-    eventos = Evento.objects.filter(user=request.user, fecha__isnull=True)
-    return render(request, 'eventos.html', {'eventos': eventos})
+    eventos = Evento.objects.filter(user=request.user, fecha__gte = date.today())
+    return render(request, 'eventos.html', {'eventos': eventos, 'date': date.today()})
+
 
 @login_required
 def eventos_completados(request):
-    eventos = Evento.objects.filter(user=request.user, fecha__isnull=False)
-    return render(request, 'eventos.html', {'evento': eventos})
+    eventos = Evento.objects.filter(user=request.user, fecha__lt = date.today())
+    return render(request, 'eventos.html', {'eventos': eventos, 'date': date.today()})
 
 @login_required
 def evento_crear(request):
@@ -55,13 +60,6 @@ def evento_detail(request, evento_id):
                 'form': form, 
                 'error': 'Error actualizando el evento'})
 
-@login_required
-def evento_completar(request, evento_id):
-    evento = get_object_or_404(Evento, pk=evento_id, user=request.user)
-    if request.method == 'POST':
-        evento.fecha = timezone.now()
-        evento.save()
-        return redirect ('eventos')
 
 @login_required
 def evento_eliminar(request, evento_id):
@@ -70,10 +68,16 @@ def evento_eliminar(request, evento_id):
         evento.delete()
         return redirect ('eventos')
     
+
 @login_required
-def evento_rehacer(request, evento_id):
-    evento = get_object_or_404(Evento, pk=evento_id, user=request.user)
-    if request.method == 'POST':
-        evento.fecha = None
-        evento.save()
-        return redirect ('eventos')
+def task_por_evento(request, evento_id):
+    eventos = Evento.objects.get(id=evento_id)
+    tasks = Task.objects.filter(evento=eventos)
+    return render(request, 'tareas_evento.html', {'tasks': tasks, 'eventos': eventos})
+
+@login_required
+def user_por_evento(request, evento_id):
+    eventos = Evento.objects.get(id=evento_id)
+    tasks = Task.objects.filter(evento=eventos)
+    users = [task.user for task in tasks]
+    return render(request, 'user_evento.html', {'tasks': tasks, 'eventos': eventos, 'users': users})

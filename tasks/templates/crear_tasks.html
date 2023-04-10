@@ -6,7 +6,7 @@
         <div class="col-md-4 offset-md-4">
             <h1 class="display-3 text-center mt-3">Crear Tarea</h1>
 
-            <form action="/tasks/crear/" method="get" class="card card-body">
+            <form action="/tasks/crear/" method="post" class="card card-body">
                 {% csrf_token %}
 
                 {{form}}

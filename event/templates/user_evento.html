@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content%}
+<main class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h1 class="mt-5 text-center display-3">Tareas del Evento</h1>
+
+            <ul class="list-group">
+                {% for user in users %}
+                <a class="list-group-item">                    
+                    <header class="d-flex justify-content-between">
+                        <h1 class="fw-bold-3"> {{user.username}} <strong style="color: crimson;">*</strong></strong></h1>
+                    </header>
+                </a>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</main>
+{% endblock %}
