@@ -4,17 +4,19 @@
 <main class="container">
     <div class="row">
         <div class="col-md-8 offset-md-2">
-            <h1 class="display-1 text-center mt-5">{{Invitado.nombre}}</h1>           
-            <form action="{% url 'invitados' invitado_id %}" method="post">
+            <h1 class="display-1 text-center mt-5">{{invitado.nombre}}</h1>           
+            <form action="{% url 'invitado_detail' invitado.id invitado.evento.id %}" method="POST">
                 {% csrf_token %}
                 {{form}}
-                <button class="btn btn-primary">Guardar</button>
+                <button class="btn btn-primary mt-3">Guardar</button>
             </form>
             
-            <form action="{% url 'invitado_eliminar' invitado.id %}"  method="post">
+            <form action="{% url 'invitado_eliminar' invitado.id invitado.evento.id %}"  method="post">
                 {% csrf_token %}
                 <button class="btn btn-danger mt-1">Eliminar</button>
             </form>
+
+
     
         </div>
     </div>

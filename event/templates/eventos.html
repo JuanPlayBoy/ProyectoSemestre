@@ -21,14 +21,15 @@
 
                     
                     <p> {{evento.descripcion}} </p>
-                    <p>
-                        <a href="{% url 'invitados' evento.id%}"  method="POST">
-                            {% csrf_token %}              
-                            <button class="" >Ver Invitados</button>
-                        </a>
-                    </p>
+
+                    <a href="{% url 'invitados' evento.id%}"  method="POST">
+                        {% csrf_token %}              
+                        <button class="btn btn-link" >Ver Invitados</button>
+                    </a>
+
                 
                 </a>
+                <br>
                 {% endfor %}
             </ul>
             <form action="{% url 'evento_crear' %}"  method="POST">

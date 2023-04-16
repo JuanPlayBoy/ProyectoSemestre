@@ -14,6 +14,11 @@
                 <button class=" btn btn-primary mt-3">Crear</button>
 
             </form>
+
+            <form action="{% url 'eventos' %}"  method="POST">
+                {% csrf_token %}              
+                <button class="btn btn-dark mt-3" >Atrás</button>
+            </form>
         </div>
     </div>
 </main>
