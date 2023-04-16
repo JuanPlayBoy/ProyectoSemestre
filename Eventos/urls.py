@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from tasks.views import home, signup, signin, signout, tasks,  task_detail, crear_task, rehacer_task, tasks_completed, delete_task, complete_task
 from event.views import evento_crear, evento_eliminar, eventos,task_por_evento, descarga_csv,user_por_evento, evento_detail, eventos_completados
+from invitados.views import invitados, invitado_crear, invitado_detail, invitado_eliminar 
 
 
 
@@ -47,4 +48,13 @@ urlpatterns = [
     path('eventos/<int:evento_id>/tasks/', task_por_evento, name = 'task_por_evento'),
     path('eventos/<int:evento_id>/users/', user_por_evento, name = 'user_por_evento'),
     path('eventos/<int:evento_id>/users/descarga_csv/', descarga_csv, name='descarga_csv'),
+
+
+    #Para invitados
+    path('invitados/<int:evento_id>/', invitados, name= 'invitados'),
+    path('invitados/crear/<int:evento_id>/', invitado_crear, name = 'invitado_crear'),
+    #path('invitados/crear/', invitado_crear, name = 'invitado_crear'),
+    path('invitados/<int:invitado_id>/', invitado_detail, name = 'invitado_detail'),
+    path('invitados/<int:invitado_id>/eliminado/', invitado_eliminar, name = 'invitado_eliminar'),
+
 ]

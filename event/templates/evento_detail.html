@@ -31,7 +31,20 @@
                     {% csrf_token %}              
                     <button class="btn btn-secondary mt-1" >Descargar Usuarios CSV</button>
                 </form>
-            {% endif %}       
+
+                
+                <form action="{% url 'invitado_crear' evento.id%}"  method="POST">
+                    {% csrf_token %}              
+                    <button class="btn btn-success mt-3" >Agregar Invitados</button>
+                </form>
+
+                <form action="{% url 'eventos' %}"  method="POST">
+                    {% csrf_token %}              
+                    <button class="btn btn-secondary mt-3" >Atrás</button>
+                </form>
+            {% endif %}
+            
+            
         </div>
     </div>
 </main>

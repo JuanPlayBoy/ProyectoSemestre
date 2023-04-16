@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content%}
+
+<main class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h1 class="mt-5 text-center display-3">Invitados</h1>
+            <ul class="list-group">
+                {% for invitado in invitados %}
+                <a href="{% url 'invitado_detail' invitado.id %}" class="list-group-item"> 
+                    
+                    <header class="d-flex justify-content-between">
+                        <h1 class="fw-bold-3"> {{invitado.nombre}}</h1>
+                        {% if invitado.respuesta == "SI" %}
+                            <p class="mt-2" style="color: rgb(5, 121, 22);">ASISTE</p>
+                        {% else %}
+                        <p class="mt-2" style="color: rgb(172, 9, 9);">FALTA</p>
+                        {% endif %}
+                    </header>
+
+                    
+                    <p> {{invitado.correo}} </p>
+                    
+                    <p>{{invitado.evento.nombre}} - {{invitado.evento.fecha}} </p>
+                    
+                
+                </a>
+                {% endfor %}
+            </ul>
+
+
+
+            {% if '/invitados/crear/' not in request.path %}
+                <form action="{% url 'eventos' %}"  method="POST">
+                    {% csrf_token %}              
+                    <button class="btn btn-secondary mt-3" >Atrás</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+</main>
+{% endblock %}
+

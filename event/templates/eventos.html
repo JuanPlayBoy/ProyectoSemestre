@@ -21,9 +21,12 @@
 
                     
                     <p> {{evento.descripcion}} </p>
-                    
-                    <p> {{evento.fecha}} </p>
-                    
+                    <p>
+                        <a href="{% url 'invitados' evento.id%}"  method="POST">
+                            {% csrf_token %}              
+                            <button class="" >Ver Invitados</button>
+                        </a>
+                    </p>
                 
                 </a>
                 {% endfor %}
@@ -38,6 +41,7 @@
                     {% csrf_token %}              
                     <button class="btn btn-secondary mt-3" >Eventos Anteriores</button>
                 </form>
+
             {% endif %}
 
             {% if '/eventos/' not in request.path %}
