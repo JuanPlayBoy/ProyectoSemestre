@@ -43,12 +43,12 @@ def signup(request):
 
 @login_required
 def tasks(request):
-    tasks = Task.objects.filter(user=request.user, fechaLim__isnull=True)
+    tasks = Task.objects.filter(user=request.user, fechaTer__isnull=True)
     return render(request, 'tasks.html', {'tasks': tasks, 'eventos': Evento})
 
 @login_required
 def tasks_completed(request):
-    tasks = Task.objects.filter(user=request.user, fechaLim__isnull=False)
+    tasks = Task.objects.filter(user=request.user, fechaTer__isnull=False)
     return render(request, 'tasks.html', {'tasks': tasks})
 
 @login_required
@@ -98,7 +98,7 @@ def task_detail(request, task_id):
 def complete_task(request, task_id):
     task = get_object_or_404(Task, pk=task_id, user=request.user)
     if request.method == 'POST':
-        task.fechaLim = timezone.now()
+        task.fechaTer = timezone.now()
         task.save()
         return redirect ('tasks')
 
@@ -113,7 +113,7 @@ def delete_task(request, task_id):
 def rehacer_task(request, task_id):
     task = get_object_or_404(Task, pk=task_id, user=request.user)
     if request.method == 'POST':
-        task.fechaLim = None
+        task.fechaTer = None
         task.save()
         return redirect ('tasks')
 

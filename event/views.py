@@ -84,18 +84,19 @@ def user_por_evento(request, evento_id):
     users = {task.user for task in tasks}
     return render(request, 'user_evento.html', {'users': users, 'eventos': eventos})
 
+
 @login_required
 def descarga_csv(request, evento_id):
-    eventos = Evento.objects.get(id=evento_id)
-    tasks = Task.objects.filter(evento=eventos)
-    users = {task.user for task in tasks}
+    evento = Evento.objects.get(id=evento_id)
+    tasks = Task.objects.filter(evento=evento)
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = f'attachment; filename="users_{eventos.nombre}.csv"'
+    response['Content-Disposition'] = f'attachment; filename="tareas_{evento.nombre}.csv"'
 
     writer = csv.writer(response)
-    writer.writerow(['Nombre', 'E-mail'])
-    for user in users:
-        writer.writerow([user.username, user.email])
+    writer.writerow(['Titulo ','Usuario Asignado ', 'Terminada ', 'Importante '])
+
+    for task in tasks:
+        writer.writerow([task.title, task.user.username,  task.fechaLim, task.importante])
 
     return response

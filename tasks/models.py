@@ -8,6 +8,7 @@ class Task(models.Model):
     descripcion = models.TextField(blank=True)
     fechaCreacion = models.DateTimeField(auto_now_add=True)
     fechaLim= models.DateTimeField(null = True, blank = True)
+    fechaTer= models.DateTimeField(null = True, blank = True)
     importante = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     evento = models.ForeignKey(Evento, blank=True , on_delete=models.CASCADE)

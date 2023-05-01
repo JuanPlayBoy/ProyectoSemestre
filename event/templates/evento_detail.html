@@ -22,14 +22,9 @@
                     <button class="btn btn-secondary mt-1" >Ver Tareas Asociadas</button>
                 </form>
 
-                <form action="{% url 'user_por_evento' evento.id %}"  method="POST" class="d-inline-block">
-                    {% csrf_token %}              
-                    <button class="btn btn-secondary mt-1" >Ver Usuarios</button>
-                </form>
-
                 <form action="{% url 'descarga_csv' evento.id %}"  method="POST" class="d-inline-block">
                     {% csrf_token %}              
-                    <button class="btn btn-warning mt-1" >Descargar Usuarios CSV</button>
+                    <button class="btn btn-warning mt-1" >Descargar Tareas CSV</button>
                 </form>
 
                 <form action="{% url 'descargar_lista_invitados' evento.id %}"  method="POST" class="d-inline-block">

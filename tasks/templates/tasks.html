@@ -13,7 +13,7 @@
                     
                     <header class="d-flex justify-content-between">
                         {% if task.importante %}
-                            <h1 class="fw-bold-3"> {{task.title}} <strong style="color: crimson;">*</strong></strong></h1>
+                            <h1 class="fw-bold-3"> {{task.title}} <strong style="color: rgb(220, 167, 20);">*</strong></strong></h1>
                         
 
                         {% else %}
@@ -25,8 +25,13 @@
                 
                     <p> {{task.descripcion}} </p>
                     
-                    <p> {{task.fechaLim|date:'M j Y:i'}} </p>
-            
+                    {% if task.fechaTer == null %}
+                        <p> HASTA: {{task.fechaLim|date:'M j Y:i'}} </p>
+
+                    {% else %}
+                        <p> TERMINADA: {{task.fechaTer|date:'M j Y:i'}} </p>
+                        
+                    {% endif %}
                 
                 </a>
                 {% endfor %}
