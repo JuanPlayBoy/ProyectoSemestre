@@ -125,7 +125,7 @@ def delete_task(request, task_id):
     
 @login_required
 def rehacer_task(request, task_id):
-    task = get_object_or_404(Task, pk=task_id, user=request.user)
+    task = get_object_or_404(Task, pk=task_id)
     if request.method == 'POST':
         task.fechaTer = None
         task.save()
@@ -167,7 +167,7 @@ def user_tasks(request):
 
 @login_required
 def user_tasks_completed(request):
-    tareas_asignadas = Task.objects.filter(user=request.user, fechaTer__isnull=False)
+    tareas_asignadas = Task.objects.filter(asignado_a=request.user, fechaTer__isnull=False)
     return render(request, 'tasks.html', {'tareas': tareas_asignadas, 'eventos': Evento})
 
 def complete_task_assigned(request, task_id):

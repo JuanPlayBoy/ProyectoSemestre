@@ -23,10 +23,10 @@
                     <p> {{task.descripcion}} </p>
                     
                     {% if task.fechaTer == null %}
-                        <p> HASTA: {{task.fechaLim|date:'M j Y:i'}} </p>
+                        <p><strong> HASTA:</strong> {{task.fechaLim|date:'M j Y:i'}} </p>
 
                     {% else %}
-                        <p> TERMINADA: {{task.fechaTer|date:'M j Y:i'}} </p>
+                        <p><strong> TERMINADA: </strong>{{task.fechaTer|date:'M j Y:i'}} </p>
                         
                     {% endif %}
                 
@@ -50,10 +50,10 @@
                     <p> {{tarea.descripcion}} </p>
                     
                     {% if tarea.fechaTer == null %}
-                        <p> HASTA: {{tarea.fechaLim|date:'M j Y:i'}} </p>
+                        <p> <strong> HASTA: </strong>{{tarea.fechaLim|date:'M j Y:i'}} </p>
 
                     {% else %}
-                        <p> TERMINADA: {{tarea.fechaTer|date:'M j Y:i'}} </p>
+                        <p> <strong>TERMINADA:</strong> {{tarea.fechaTer|date:'M j Y:i'}} </p>
                         
                     {% endif %}
                 
@@ -71,7 +71,7 @@
                 <button class="btn btn-dark mt-1" >Tareas Asignadas</button>
             </form>
 
-            <form action="{% url 'user_tasks' %}"  method="POST">
+            <form action="{% url 'user_tasks_completed' %}"  method="POST">
                 {% csrf_token %}              
                 <button class="btn btn-dark mt-1 mb-5" >Tareas Asignadas Completas</button>
             </form>
