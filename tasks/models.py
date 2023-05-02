@@ -12,6 +12,6 @@ class Task(models.Model):
     importante = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     evento = models.ForeignKey(Evento, blank=True , on_delete=models.CASCADE)
-
+    asignado_a = models.ForeignKey(User, null=True, blank=True, related_name='tasks_assigned', on_delete=models.SET_NULL)
     def __str__(self):
         return self.title

@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from tasks.views import home, signup, signin, signout, tasks,  task_detail, crear_task, rehacer_task, tasks_completed, delete_task, complete_task
+from tasks.views import home, signup, signin, signout, tasks,  task_detail, crear_task, rehacer_task, tasks_completed, delete_task, complete_task, user_tasks, complete_task_assigned
 from event.views import evento_crear, evento_eliminar, eventos,task_por_evento, descarga_csv,user_por_evento, evento_detail, eventos_completados
 from invitados.views import invitados, invitado_crear, invitado_detail, invitado_eliminar, descargar_lista_invitados 
 
@@ -37,6 +37,9 @@ urlpatterns = [
     path('tasks/<int:task_id>/completada/', complete_task, name = 'complete_task'),
     path('tasks/<int:task_id>/rehecha/', rehacer_task, name = 'rehacer_task'),
     path('tasks/<int:task_id>/eliminada/', delete_task, name = 'delete_task'),
+    path('tasks/user/', user_tasks, name='user_tasks'),
+    path('tasks/user/<int:task_id>/completada/', complete_task_assigned, name= 'complete_task_assigned'), 
+
 
 
     #Para eventos

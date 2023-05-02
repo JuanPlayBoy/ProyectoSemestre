@@ -7,7 +7,7 @@
             <h1 class="display-1 text-center mt-5">{{task.title}}</h1>
 
             {{error}}
-            <form method="post">
+            <form method="post"{% if not editable %} disabled{% endif %}>
                 {% csrf_token %}
                 <div class="form-group">
                     {{ form.title.label_tag }}
@@ -36,13 +36,29 @@
                     {{ form.evento.label_tag }}
                     {{ form.evento }}
                 </div>
-                <button class="btn btn-primary">Guardar</button>
+
+                <div class="form-group">
+                    {{ form.asignado_a.label_tag }}
+                    {{ form.asignado_a }}
+                </div>
+
+                {% if editable %}
+                <button class="btn btn-primary mt-3">Guardar</button>
+                {% endif %}
             </form>
 
+            {% if editable %}
             <form action="{% url 'complete_task' task.id %}"  method="post">
                 {% csrf_token %}
                 <button class="btn btn-outline-primary mt-1">Completada</button>
             </form>
+            {% else %}
+            <form action="{% url 'complete_task_assigned' task.id %}"  method="post">
+                {% csrf_token %}
+                <button class="btn btn-outline-primary mt-1">Completada</button>
+            </form>
+            {% endif %}
+
 
             {% if not task.fechaLim is none %}
                 <form action="{% url 'rehacer_task' task.id %}"  method="post">
@@ -51,12 +67,12 @@
                 </form>
             {% endif %}
 
-            
+            {% if editable %}
             <form action="{% url 'delete_task' task.id %}"  method="post">
                 {% csrf_token %}
-                <button class="btn btn-danger mt-1">Eliminar</button>
+                <button class="btn btn-danger mt-1 mb-5">Eliminar</button>
             </form>
-
+            {% endif %}
 
 
         </div>

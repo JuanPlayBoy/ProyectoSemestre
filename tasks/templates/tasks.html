@@ -3,14 +3,11 @@
 {% block content%}
 <main class="container">
     <div class="row">
-        <div class="col-md-6 offset-md-3">
+        <div class="col-md-12">
             <h1 class="mt-5 text-center display-3">Tareas</h1>
-
             <ul class="list-group">
                 {% for task in tasks %}
-                <a href="{% url 'task_detail' task.id %}" class="list-group-item"> 
-                
-                    
+                <a href="{% url 'task_detail' task.id %}" class="list-group-item">                                  
                     <header class="d-flex justify-content-between">
                         {% if task.importante %}
                             <h1 class="fw-bold-3"> {{task.title}} <strong style="color: rgb(220, 167, 20);">*</strong></strong></h1>
@@ -35,15 +32,54 @@
                 
                 </a>
                 {% endfor %}
+
+                {% for tarea in tareas %}
+                <a href="{% url 'task_detail' tarea.id %}" class="list-group-item">                                  
+                    <header class="d-flex justify-content-between">
+                        {% if tarea.importante %}
+                            <h1 class="fw-bold-3"> {{tarea.title}} <strong style="color: rgb(220, 167, 20);">*</strong></strong></h1>
+                        
+
+                        {% else %}
+                            <h1 class="fw-bold-3"> {{tarea.title}}</h1>
+                        
+                        {% endif %}
+                        <p class="mt-2"> {{tarea.evento.nombre}} - {{tarea.user.username}} </p>
+                    </header>
+                
+                    <p> {{tarea.descripcion}} </p>
+                    
+                    {% if tarea.fechaTer == null %}
+                        <p> HASTA: {{tarea.fechaLim|date:'M j Y:i'}} </p>
+
+                    {% else %}
+                        <p> TERMINADA: {{tarea.fechaTer|date:'M j Y:i'}} </p>
+                        
+                    {% endif %}
+                
+                </a>
+                {% endfor %}
+
             </ul>
             <form action="{% url 'crear_task' %}"  method="post">
                 {% csrf_token %}
                 <button class="btn btn-primary mt-3">Nueva Tarea</button>
             </form>
+
+            <form action="{% url 'user_tasks' %}"  method="POST">
+                {% csrf_token %}              
+                <button class="btn btn-dark mt-1" >Tareas Asignadas</button>
+            </form>
+
+            <form action="{% url 'user_tasks' %}"  method="POST">
+                {% csrf_token %}              
+                <button class="btn btn-dark mt-1 mb-5" >Tareas Asignadas Completas</button>
+            </form>
+
+
         </div>
-
-
 
     </div>
 </main>
+
 {% endblock %}

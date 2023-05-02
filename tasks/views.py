@@ -5,10 +5,12 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.contrib.auth import login, logout, authenticate
+from django.urls import reverse
 from event.models import Evento
 from .froms import TaskForm
 from .models import Task
 from django.utils import timezone
+from django.http import HttpResponseRedirect
 # Create your views here.
 
 
@@ -55,44 +57,56 @@ def tasks_completed(request):
 def crear_task(request):
     eventos = Evento.objects.filter(user=request.user, fecha__gte=date.today())
     if request.method == 'GET':
+        form = TaskForm(user=request.user)
+        # Aquí se filtran los eventos del usuario actual
+        form.fields['evento'].queryset = Evento.objects.filter(user=request.user)
         return render(request, 'crear_tasks.html', {
-            'form': TaskForm,
+            'form': form,
             'eventos': eventos
         })
     else:
         try:
-            form = TaskForm(request.POST)
+            form = TaskForm(request.POST, user=request.user)
+            # Aquí se vuelve a filtrar los eventos del usuario actual
+            form.fields['evento'].queryset = Evento.objects.filter(user=request.user)
             new_task = form.save(commit=False)
             new_task.user = request.user
             new_task.evento = form.cleaned_data['evento']
+            new_task.asignado_a = form.cleaned_data['asignado_a']
             new_task.save()
             return redirect('tasks')
         
         except ValueError:
             return render(request, 'crear_tasks.html', {
-                'form': TaskForm,
+                'form': TaskForm(user=request.user),
                 'error': 'Por favor, ingrese datos validos',
                 'eventos': eventos
             })
 
 
+
+
 @login_required
 def task_detail(request, task_id):
-    if request.method == 'GET':
-        task = get_object_or_404(Task, pk=task_id, user = request.user)
-        form = TaskForm(instance=task)
-        return render(request, 'task_detail.html', {'task': task, 'form': form})
+    task = get_object_or_404(Task, pk=task_id)
+    
+    # Verificar si el usuario actual es el asignado
+    if task.asignado_a == request.user:
+        editable = False
     else:
-        try:
-            task = get_object_or_404(Task, pk=task_id, user = request.user)
-            form = TaskForm(request.POST, instance=task)
+        editable = True
+
+    # Procesar la solicitud de actualización de la tarea
+    if request.method == 'POST':
+        form = TaskForm(request.POST, instance=task, user=request.user)
+        if form.is_valid():
             form.save()
-            return redirect('tasks')
-        except ValueError:
-            return render (request, 'task_detail.html', {
-                'task': task, 
-                'form': form, 
-                'error': 'Error actualizando la tarea'})
+            return HttpResponseRedirect(reverse('tasks'))
+    else:
+        form = TaskForm(instance=task, user=request.user)
+
+    return render(request, 'task_detail.html', {'task': task, 'form': form, 'editable': editable})
+
 
 @login_required
 def complete_task(request, task_id):
@@ -139,3 +153,34 @@ def signin(request):
         else:
             login(request, user)
             return redirect('home')
+        
+
+@login_required
+def user_tasks(request):
+    # Obtener todas las tareas asignadas al usuario actual
+    tareas_asignadas = Task.objects.filter(asignado_a=request.user, fechaTer__isnull=True)
+
+    # Renderizar la plantilla y pasar las tareas al contexto
+    return render(request, 'tasks.html', {'tareas': tareas_asignadas, 'eventos': Evento})
+
+
+
+@login_required
+def user_tasks_completed(request):
+    tareas_asignadas = Task.objects.filter(user=request.user, fechaTer__isnull=False)
+    return render(request, 'tasks.html', {'tareas': tareas_asignadas, 'eventos': Evento})
+
+def complete_task_assigned(request, task_id):
+    tarea = get_object_or_404(Task, pk=task_id, asignado_a=request.user)
+
+    if request.method == 'POST':
+        tarea.fechaTer = timezone.now()
+        tarea.save()
+        return redirect('tasks')
+
+ 
+
+
+  
+
+

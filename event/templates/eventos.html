@@ -4,7 +4,7 @@
 
 <main class="container">
     <div class="row">
-        <div class="col-md-6 offset-md-3">
+        <div class="col-md-10 offset-md-1">
             <h1 class="mt-5 text-center display-3">Eventos</h1>
             <ul class="list-group">
                 {% for evento in eventos %}
@@ -24,7 +24,7 @@
 
                     <a href="{% url 'invitados' evento.id%}"  method="POST">
                         {% csrf_token %}              
-                        <button class="btn btn-success mt-2" >Ver Invitados</button>
+                        <button class="btn btn-success mt-2">Ver Invitados</button>
                     </a>
 
                 
@@ -40,7 +40,7 @@
             {% if '/eventos-completos/' not in request.path %}
                 <form action="{% url 'eventos_completados' %}"  method="POST">
                     {% csrf_token %}              
-                    <button class="btn btn-secondary mt-3" >Eventos Anteriores</button>
+                    <button class="btn btn-secondary mt-3 mb-5" >Eventos Anteriores</button>
                 </form>
 
             {% endif %}
@@ -48,7 +48,7 @@
             {% if '/eventos/' not in request.path %}
                 <form action="{% url 'eventos' %}"  method="POST">
                     {% csrf_token %}              
-                    <button class="btn btn-secondary mt-3" >Atrás</button>
+                    <button class="btn btn-dark mt-3 mb-5" >Atrás</button>
                 </form>
             {% endif %}
         </div>

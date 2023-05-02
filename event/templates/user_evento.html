@@ -19,7 +19,7 @@
             {% if '/eventos-completos/' not in request.path %}
                 <form action="{% url 'eventos'  %}"  method="POST">
                     {% csrf_token %}              
-                    <button class="btn btn-dark mt-3" >Atrás</button>
+                    <button class="btn btn-dark mt-3 mb-5" >Atrás</button>
                 </form>
             {% endif %}
         </div>        

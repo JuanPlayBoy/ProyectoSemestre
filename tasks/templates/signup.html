@@ -4,7 +4,7 @@
 <main class="container">
 <div class="row">
     <div class="col-md-4 offset-md-4 mt-5">
-        <h1 class="text-center">Sign Up</h1>
+        <h1 class="text-center">Regístrate</h1>
         {{error}}
         <form action="/signup/" method = "POST" class="card card-body">
             {% csrf_token %}
@@ -14,7 +14,7 @@
                 placeholder="Escribe tu nombre de usuario">
             </div>
             <div class="mb-3">
-                <label for="email">Email:</label>
+                <label for="email">Correo Electrónico:</label>
                 <input type="email" name="email" class="form-control" 
                 placeholder="Escribe tu correo electrónico">
             </div>
@@ -31,7 +31,7 @@
                 <input type="password" name="password2" id="password2" class="form-control" 
                 placeholder="Repite tu contraseña">
             </div>
-            <button class="btn btn-primary">
+            <button class="btn btn-primary mb-5">
                 Sign Up
             </button>
         </form>
