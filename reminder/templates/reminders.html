@@ -4,25 +4,22 @@
 
 <main class="container">
     <div class="row">
-        <div class="col-md-6 offset-md-3">
-            <h1 class="mt-5 text-center display-3">Notifiaciones</h1>
+        <div class="col-md-7 offset-md-2">
+            <h1 class="mt-5 text-center display-3">Notificaciones</h1>
             <ul class="list-group">
                 {% for reminder in reminders %}
                 <a href="{% url 'reminder_detail' reminder.id reminder.evento.id %}" class="list-group-item"> 
                     
                     <header class="d-flex justify-content-between">
                         <h1 class="fw-bold-3"> {{reminder.asunto}}</h1>
-                        {% if reminder.fecha > date.today %}
-                            <p class="mt-2" style="color: rgb(5, 121, 22);">PROGRAMADO</p>
-                        {% else %}
-                            <p class="mt-2" style="color: rgb(172, 9, 9);">ENVIADO</p>
-                        {% endif %}
+                        <p class="mt-2"> <strong>  REALIZADO:</strong> {{reminder.fechaCreacion}}</p>
+                        
                     </header>
 
                     
                     <p> {{reminder.descripcion}} </p>
                     
-                    <p>{{reminder.evento.nombre}} - {{reminder.fecha}} </p>
+                    <p>{{reminder.evento.nombre}}</p>
 
                     <a href="{% url 'send_email' reminder.id %} " class="btn btn-success mt-1 mb-4">Enviar correo electrónico</a>
 

@@ -25,7 +25,7 @@ def reminder_crear(request, evento_id):
     evento = get_object_or_404(Evento, id=evento_id)
 
     if request.method == 'POST':
-        form = FormularioReminder(request.POST)
+        form = FormularioReminder(request.POST, invitado_choices=evento.invitado_set.all())
         if form.is_valid():
             reminder = form.save(commit=False)
             reminder.user = request.user
@@ -38,15 +38,12 @@ def reminder_crear(request, evento_id):
             reminder.invitado.set(invitados)
             return redirect('reminders', evento_id=evento_id)
     else:
-        invitados = Invitado.objects.filter(evento=evento).distinct()
-        invitado_choices = [(invitado.nombre, invitado.nombre) for invitado in invitados]
-        form = FormularioReminder(invitado_choices=invitado_choices)
-        
+        form = FormularioReminder(invitado_choices=evento.invitado_set.all())
+
     return render(request, 'reminder_crear.html', {
         'form': form,
         'evento_id': evento_id,
     })
-
 
 
 @login_required
@@ -55,11 +52,12 @@ def reminder_detail(request, reminder_id, evento_id):
     evento = get_object_or_404(Evento, pk=evento_id, user=request.user)
 
     if request.method == 'GET':
-        form = FormularioReminder(instance=reminder)
-        invitados = reminder.invitado.all()
+        invitados = Invitado.objects.filter(reminder=reminder)
+        invitado_choices = evento.invitado_set.all()
+        form = FormularioReminder(instance=reminder, invitado_choices=invitado_choices)
         return render(request, 'reminder_detail.html', {'reminder': reminder, 'form': form, 'evento': evento, 'invitados': invitados})
     else:
-        form = FormularioReminder(request.POST, instance=reminder)
+        form = FormularioReminder(request.POST, instance=reminder, invitado_choices=evento.invitado_set.all())
         if form.is_valid():
             reminder = form.save(commit=False)
             reminder.user = request.user
@@ -68,7 +66,7 @@ def reminder_detail(request, reminder_id, evento_id):
             form.save_m2m()
             return redirect(reverse('reminders', args=[evento_id]))
         else:
-            invitados = reminder.invitado.all()
+            invitados = Invitado.objects.filter(reminder=reminder)
             return render(request, 'reminder_detail.html', {
                 'reminder': reminder,
                 'form': form,
@@ -76,6 +74,9 @@ def reminder_detail(request, reminder_id, evento_id):
                 'evento': evento,
                 'invitados': invitados,
             })
+
+
+
 
 
 @login_required
