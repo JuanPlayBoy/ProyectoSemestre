@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content%}
+<main class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h1 class="display-1 text-center mt-5">{{reminder.asunto}}</h1>           
+            <form action="{% url 'reminder_detail' reminder.id reminder.evento.id %}" method="POST">
+                {% csrf_token %}
+                {{form}}
+
+                <label for="id_invitado">Invitados:</label>
+                <select name="invitado" id="id_invitado">
+                  {% for invitado in invitados %}
+                    <option value="{{ invitado.pk }}">{{ invitado.nombre }}</option>
+                  {% endfor %}
+                </select>
+                <button class="btn btn-primary mt-3">Guardar</button>
+            </form>
+            
+            <form action="{% url 'reminder_eliminar' reminder.id reminder.evento.id %}"  method="post">
+                {% csrf_token %}
+                <button class="btn btn-danger mt-1">Eliminar</button>
+            </form>
+
+
+    
+        </div>
+    </div>
+</main>
+
+{% endblock %}

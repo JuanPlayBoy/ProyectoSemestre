@@ -18,7 +18,7 @@ from django.urls import path
 from tasks.views import home, signup, signin, signout, tasks,  task_detail, crear_task, rehacer_task, tasks_completed, delete_task, complete_task, user_tasks, complete_task_assigned, user_tasks_completed
 from event.views import evento_crear, evento_eliminar, eventos,task_por_evento, descarga_csv,user_por_evento, evento_detail, eventos_completados
 from invitados.views import invitados, invitado_crear, invitado_detail, invitado_eliminar, descargar_lista_invitados 
-
+from reminder.views import reminders, reminder_crear, reminder_detail, reminder_eliminar, send_email, email_redirect
 
 
 urlpatterns = [
@@ -61,4 +61,15 @@ urlpatterns = [
     path('invitados/detail/<int:invitado_id>/<int:evento_id>/', invitado_detail, name = 'invitado_detail'),
     path('invitados/elimar/<int:invitado_id>/<int:evento_id>/', invitado_eliminar, name = 'invitado_eliminar'),
     path('invitados/descarga_invitados/<int:evento_id>/', descargar_lista_invitados, name='descargar_lista_invitados'),
+
+    #Para REMINDER 
+    path('reminders/<int:evento_id>/', reminders, name='reminders'),
+    path('reminders/crear/<int:evento_id>/', reminder_crear, name='reminder_crear'),
+    path('reminders/detail/<int:reminder_id>/<int:evento_id>/', reminder_detail, name='reminder_detail'),
+    path('reminders/delete/<int:reminder_id>/<int:evento_id>/', reminder_eliminar, name='reminder_eliminar'),
+    path('reminders/send_email/<int:reminder_id>/', send_email, name='send_email'),
+    path('email_redirect/', email_redirect, name='email_redirect')
+
+    
+    
 ]

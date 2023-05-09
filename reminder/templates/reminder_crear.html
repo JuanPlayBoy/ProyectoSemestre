@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h1 class="display-3 text-center mt-3">Notificación Nueva</h1>
+
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                  {{ form.asunto.label_tag }}
+                  {{ form.asunto }}
+                </div>
+                <div class="form-group">
+                  {{ form.descripcion.label_tag }}
+                  {{ form.descripcion }}
+                </div>
+                <div class="form-group">
+                  {{ form.fecha.label_tag }}
+                  {{ form.fecha }}
+                </div>
+                <div class="form-group">
+                  {{ form.select_all }}
+                  Seleccionar todos
+                </div>
+                <div class="form-group">
+                  {{ form.invitado.label_tag }}
+                  {% for invitado in form.invitado %}
+                  <div class="form-check">
+                    {{ invitado.tag }}
+                    {{ invitado.choice_label }}
+                  </div>
+                  {% endfor %}
+                </div>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+              </form>
+              
+
+            <form action="{% url 'eventos' %}"  method="POST">
+                {% csrf_token %}              
+                <button class="btn btn-dark mt-3" >Atrás</button>
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock %}

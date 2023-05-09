@@ -22,12 +22,16 @@
                     
                     <p> {{evento.descripcion}} </p>
 
-                    <a href="{% url 'invitados' evento.id%}"  method="POST">
-                        {% csrf_token %}              
-                        <button class="btn btn-success mt-2">Ver Invitados</button>
+                    <a href="{% url 'invitados' evento.id %}">
+                        <button class="btn btn-success mt-2" style="display: inline-block; margin-right: 10px;">Ver Invitados</button>
                     </a>
-
-                
+                    <a href="{% url 'reminders' evento_id=evento.id %}">
+                        <button class="btn btn-success mt-1" style="display: inline-block; margin-right: 10px;">Notificación</button>
+                    </a>
+                    <a href="{% url 'reminder_crear' evento_id=evento.id %}">
+                        <button class="btn btn-success mt-1" style="display: inline-block;">Enviar Notificación</button>
+                    </a>
+                    
                 </a>
                 <br>
                 {% endfor %}
