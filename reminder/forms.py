@@ -4,9 +4,6 @@ from .models import Invitado
 
 
 class FormularioReminder(forms.ModelForm):
-    fecha = forms.DateField(
-        widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date', 'format': 'yyyy-mm-dd'})
-    )
     invitado = forms.ModelMultipleChoiceField(
         queryset=Invitado.objects.none(),
         widget=forms.CheckboxSelectMultiple(attrs={'class': 'form-control checkbox-sm'}),
