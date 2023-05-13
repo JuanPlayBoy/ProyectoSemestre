@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'tasks',
     'event',
     'invitados',
-    'reminder'
+    'reminder',
+    
 ]
 
 MIDDLEWARE = [

@@ -19,6 +19,9 @@ from tasks.views import home, signup, signin, signout, tasks,  task_detail, crea
 from event.views import evento_crear, evento_eliminar, eventos,task_por_evento, descarga_csv,user_por_evento, evento_detail, eventos_completados
 from invitados.views import invitados, invitado_crear, invitado_detail, invitado_eliminar, descargar_lista_invitados 
 from reminder.views import reminders, reminder_crear, reminder_detail, reminder_eliminar, send_email, email_redirect
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 
 urlpatterns = [
@@ -70,6 +73,6 @@ urlpatterns = [
     path('reminders/send_email/<int:reminder_id>/', send_email, name='send_email'),
     path('email_redirect/', email_redirect, name='email_redirect')
 
-    
-    
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
