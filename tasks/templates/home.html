@@ -3,32 +3,118 @@
 {% load static %}
 
 {% block content %}
-<main class="container py-5">
-    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
+<script>
+  // Inicializar el carrusel
+  var carousel = new bootstrap.Carousel(document.querySelector('#carouselExampleControls'), {
+      interval: 4000 // Cambiar cada 3 segundos
+  });
+</script>
 
-          <div class="carousel-item active">
-            <img src="{% static 'img/boda.jpg' %}" class="d-block w-100" alt="...">
-          </div>
+//<style>
+  .carousel-inner {
+    max-height: 39rem;
+  }
 
-          <div class="carousel-item">
-            <img src="{% static 'img/conferencia.jpg' %}" class="d-block w-100" alt="...">
-          </div>
+  @media (max-width: 768px) {
+    #intro{
+      width: 90% !important ;
+    }
+    .servicio-fila {
+      width: 100% !important;
+      text-align: center;
+    }
+  }
+  @media (max-width:578px){
 
-          <div class="carousel-item">
-            <img src="{% static 'img/fiest.jpeg' %}" class="d-block w-100" alt="...">
-          </div>
+    .icono-wrap{
+      flex-wrap: wrap;
+      justify-content: center !important;
+    }
+  }
+</style>
 
+<!-- INICIO -->
+<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="{% static 'img/bodas.jpg' %}" class="d-block w-100 carousel-image" alt="...">
+            <div class="carousel-caption ">
+                <h1><strong>HAZ REALIDAD LA BODA DE TUS SUEÑOS </strong> </h1>
+                <h2><strong> Organiza tu boda de ensueño con facilidad y sin preocupaciones, 
+                  ¡utiliza 'ONE' y disfruta de una boda 
+                  memorable sin complicaciones!</strong></h2>
+            </div>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
+        <div class="carousel-item">
+            <img src="{% static 'img/conferencia.png' %}" class="d-block w-100 carousel-image" alt="...">
+            <div class="carousel-caption ">
+              <h1><strong>Lorem Ipsum 1 </strong> </h1>
+                <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="{% static 'img/fiest.jpg' %}" class="d-block w-100 carousel-image" alt="...">
+            <div class="carousel-caption">
+              <h1><strong>Lorem Ipsum 1 </strong> </h1>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            </div>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+<!-- DESCRIPCION -->
+<section class="w-50 mx-auto text-center pt-5" id="intro">
+  <h1 class="p-3 fs-2 border-top border-3">Una web única para tu <span class="fw-bold">Planifiación de Eventos </span></h1>
+  <p class="p-3 fs-4"><span class="fw-bold">Events ONE. </span> es la web donde te ayudamos a planificar tus 
+  eventos más complejos, ya no tendrás que llevar una lista de invitados u organizadores responsables a 
+  mano, tus eventos nunca habían sucedido tan fácil y rápido.</p>
+</section>
+
+<!-- SERVICIOS -->
+<section class="container-fluid">
+  <div class="row w-75 mx-auto servicio-fila">
+    <div class="col-lg-6 col-md-12 col-sm-12 d-flex justify-content-start my-5 icono-wrap">
+      <img src="{% static 'img/evento-icon.png' %}" alt="" width="180" height="160">
+      <div>
+        <h3 class="fs-5 mt-4 px-4 pb-1">Detalles Evento</h3>
+        <p class="px-4">Maneja los detalles de tu evento de manera clara y sencilla</p>
       </div>
-</main>
+    </div>
+
+    <div class="col-lg-6 col-md-12 col-sm-12 d-flex justify-content-start my-5 icono-wrap">
+      <img src="{% static 'img/tareas-icon.png' %}" alt="" width="180" height="160">
+      <div>
+        <h3 class="fs-5 mt-4 px-4 pb-1">Asigna Tareas</h3>
+        <p class="px-4">Tu grupo de organizadores puede unirse a ONE. para que designes sus tareas para que tu evento se lleve a cabo.</p>
+      </div>
+    </div>
+
+    <div class="col-lg-6 col-md-12 col-sm-12 d-flex justify-content-start my-5 icono-wrap">
+      <img src="{% static 'img/guest-icon.png' %}" alt="" width="180" height="160">
+      <div>
+        <h3 class="fs-5 mt-4 px-4 pb-1">Lista de Invitados</h3>
+        <p class="px-4">Genera una lista de invitados digital con la que tienes control total de quien asiste a tu evento.</p>
+      </div>
+    </div>
+
+    <div class="col-lg-6 col-md-12 col-sm-12 d-flex justify-content-start my-5 icono-wrap">
+      <img src="{% static 'img/noti-icon.png' %}" alt="" width="180" height="160">
+      <div>
+        <h3 class="fs-5 mt-4 px-4 pb-1">Notificaciones</h3>
+        <p class="px-4">Envía recordatorios o actualizaciones a tus invitados vía correo electrónico cuando lo necesites.</p>
+      </div>
+    </div>
+
+    
+  </div>
+</section>
 {% endblock %}
 
