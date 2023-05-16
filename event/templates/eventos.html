@@ -4,7 +4,7 @@
 
 <main class="container">
     <div class="row">
-        <div class="col-md-10 offset-md-1">
+        <div class="col-md-10 offset-md-1 ">
             <h1 class="mt-5 text-center display-3">Eventos</h1>
             <ul class="list-group">
                 {% for evento in eventos %}
@@ -21,16 +21,19 @@
 
                     
                     <p> {{evento.descripcion}} </p>
+                
 
-                    <a href="{% url 'invitados' evento.id %}">
-                        <button class="btn btn-success mt-2" style="display: inline-block; margin-right: 10px;">Ver Invitados</button>
-                    </a>
-                    <a href="{% url 'reminders' evento_id=evento.id %}">
-                        <button class="btn btn-success mt-1" style="display: inline-block; margin-right: 10px;">Notificación</button>
-                    </a>
-                    <a href="{% url 'reminder_crear' evento_id=evento.id %}">
-                        <button class="btn btn-success mt-1" style="display: inline-block;">Enviar Notificación</button>
-                    </a>
+                    <div class="justify-content-end">
+                        <a href="{% url 'invitados' evento.id %}">
+                            <button class="btn btn-success mt-2 me-5 d-inline-block">Ver Invitados</button>
+                        </a>
+                        <a href="{% url 'reminders' evento_id=evento.id %}">
+                            <button class="btn btn-success mt-2 ms-5 d-inline-block ">Revisar Notificaciones</button>
+                        </a>
+                        <a href="{% url 'reminder_crear' evento_id=evento.id %}">
+                            <button class="btn btn-success mt-2  d-inline-block">Enviar Notificación</button>
+                        </a>
+                    </div>
                     
                 </a>
                 <br>
@@ -38,13 +41,13 @@
             </ul>
             <form action="{% url 'evento_crear' %}"  method="POST">
                 {% csrf_token %}
-                <button class="btn btn-primary mt-3">Nuevo Evento</button>
+                <button class="btn btn-primary mt-3">Añadir Nuevo Evento</button>
             </form>
 
             {% if '/eventos-completos/' not in request.path %}
                 <form action="{% url 'eventos_completados' %}"  method="POST">
                     {% csrf_token %}              
-                    <button class="btn btn-secondary mt-3 mb-5" >Eventos Anteriores</button>
+                    <button class="btn btn-secondary mt-3 mb-5" >Revisar Eventos Anteriores</button>
                 </form>
 
             {% endif %}
