@@ -8,28 +8,9 @@
 
       <form method="POST">
         {% csrf_token %}
-        <div class="form-group">
-          {{ form.asunto.label_tag }}
-          {{ form.asunto }}
-        </div>
-        <div class="form-group">
-          {{ form.descripcion.label_tag }}
-          {{ form.descripcion }}
-        </div>
+        
+          {{ form }}
 
-        <div class="form-group">
-          {{ form.select_all }}
-          Seleccionar todos
-        </div>
-        <div class="form-group invitado-field">
-          {{ form.invitado.label_tag }}
-          {% for invitado in form.invitado %}
-          <div class="form-check">
-            {{ invitado.tag }}
-            {{ invitado.choice_label }}
-          </div>
-          {% endfor %}
-        </div>
         <button type="submit" class="btn btn-primary">Guardar</button>
       </form>
 
