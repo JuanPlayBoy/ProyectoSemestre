@@ -5,6 +5,27 @@
     <div class="row">
         <div class="col-md-12">
             <h1 class="mt-5 text-center display-3">Tareas</h1>
+            <div class="d-flex">
+                {% if "/user/" not in request.path %}
+                <form action="{% url 'user_tasks' %}"  method="POST">
+                    {% csrf_token %}              
+                    <button class="btn btn-warning mt-1 d-inline-block mb-3 fw-bold" >Tareas Que Me Asignaron</button>
+                </form>
+
+                {% else %}
+                <form action="{% url 'tasks' %}"  method="POST">
+                    {% csrf_token %}              
+                    <button class="btn btn-warning mt-1 d-inline-block fw-bold" >Mis Tareas</button>
+                </form>
+
+                <form action="{% url 'user_tasks_completed' %}"  method="POST">
+                    {% csrf_token %}              
+                    <button class="btn btn-dark mt-1 mb-3 d-inline-block ms-2" >Tareas Asignadas Completas</button>
+                </form>
+                {% endif %}
+
+            </div>
+
             <ul class="list-group">
                 {% for task in tasks %}
                 <a href="{% url 'task_detail' task.id %}" class="list-group-item">                                  
@@ -61,20 +82,14 @@
                 {% endfor %}
 
             </ul>
+            {% if "/user/" not in request.path %}
             <form action="{% url 'crear_task' %}"  method="post">
                 {% csrf_token %}
                 <button class="btn btn-primary mt-3">Nueva Tarea</button>
             </form>
+            {% endif %}
 
-            <form action="{% url 'user_tasks' %}"  method="POST">
-                {% csrf_token %}              
-                <button class="btn btn-dark mt-1" >Tareas Asignadas</button>
-            </form>
 
-            <form action="{% url 'user_tasks_completed' %}"  method="POST">
-                {% csrf_token %}              
-                <button class="btn btn-dark mt-1 mb-5" >Tareas Asignadas Completas</button>
-            </form>
 
 
         </div>

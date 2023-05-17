@@ -49,17 +49,20 @@ def evento_detail(request, evento_id):
     if request.method == 'GET':
         evento = get_object_or_404(Evento, pk=evento_id, user = request.user)
         form = FormularioEvento(instance=evento)
-        return render(request, 'evento_detail.html', {'evento': evento, 'form': form})
+        agregar_invitados = evento.fecha > date.today()
+        return render(request, 'evento_detail.html', {'evento': evento, 'form': form, 'agregar_invitados': agregar_invitados,})
     else:
         try:
             evento = get_object_or_404(Evento, pk=evento_id, user = request.user)
             form = FormularioEvento(request.POST, instance=evento)
+            agregar_invitados = evento.fecha > date.today()
             form.save()
             return redirect('eventos')
         except ValueError:
             return render (request, 'evento_detail.html', {
                 'evento': evento, 
-                'form': form, 
+                'form': form,
+                'agregar_invitados': agregar_invitados, 
                 'error': 'Error actualizando el evento'})
 
 
@@ -69,6 +72,7 @@ def evento_eliminar(request, evento_id):
     if request.method == 'POST':
         evento.delete()
         return redirect ('eventos')
+    
     
 
 @login_required

@@ -4,55 +4,56 @@
 <main class="container">
     <div class="row">
         <div class="col-md-8 offset-md-2">
-            <h1 class="display-1 text-center mt-5">{{evento.nombre}}</h1>           
-            <form method="post" >
+            <h1 class="display-1 text-center mt-5">{{evento.nombre}}</h1> 
+                      
+            <form method="post" class="my-1">
                 {% csrf_token %}
                 {{form.as_p}}
                 <button class="btn btn-primary">Guardar</button>
             </form>
-            
-            <form action="{% url 'evento_eliminar' evento.id %}"  method="post" >
+            <form action="{% url 'evento_eliminar' evento.id %}"  method="POST" class="d-inline-block" >
                 {% csrf_token %}
-                <button class="btn btn-danger mt-1">Eliminar</button>
+                <button class="btn btn-danger">Eliminar</button>
             </form>
-
+            
             {% if '/eventos-completos/' not in request.path %}
-                <form action="{% url 'task_por_evento' evento.id %}"  method="POST" class="d-inline-block">
-                    {% csrf_token %}              
-                    <button class="btn btn-secondary mt-1" >Ver Tareas Asociadas</button>
-                </form>
-
-                <form action="{% url 'descarga_csv' evento.id %}"  method="POST" class="d-inline-block">
-                    {% csrf_token %}              
-                    <button class="btn btn-warning mt-1" >Descargar Tareas CSV</button>
-                </form>
-
-                <form action="{% url 'descargar_lista_invitados' evento.id %}"  method="POST" class="d-inline-block">
-                    {% csrf_token %}              
-                    <button class="btn btn-warning mt-1" >Descargar Invitados CSV</button>
-                </form>
+                <div class="d-flex justify-content-start mt-5">
+                    <form action="{% url 'task_por_evento' evento.id %}"  method="POST">
+                        {% csrf_token %}              
+                        <button class="btn btn-secondary me-2">Ver Tareas del Evento</button>
+                    </form>
                 
-                <form action="{% url 'invitado_crear' evento.id%}"  method="POST" class="d-inline-block">
-                    {% csrf_token %}              
-                    <button class="btn btn-success mt-1" >Agregar Invitados</button>
-                </form>
+                    <form action="{% url 'descarga_csv' evento.id %}"  method="POST">
+                        {% csrf_token %}              
+                        <button class="btn btn-warning">Descargar Tareas CSV</button>
+                    </form>
+                </div>
+                
+                <div class="d-flex justify-content-start mt-3">
+                    {% if agregar_invitados %}
+                        <form action="{% url 'invitado_crear' evento.id%}"  method="POST" class="me-2">
+                            {% csrf_token %}              
+                            <button class="btn btn-success">Agregar Invitados</button>
+                        </form>
+                    {% endif %}
 
-
-
-
+                    <form action="{% url 'descargar_lista_invitados' evento.id %}"  method="POST">
+                        {% csrf_token %}              
+                        <button class="btn btn-warning">Descargar Invitados CSV</button>
+                    </form>
+                </div>
             {% endif %}
 
-
-
-            <form action="{% url 'eventos' %}"  method="POST">
+            <form action="{% url 'eventos' %}"  method="POST" class="mt-5">
                 {% csrf_token %}              
-                <button class="btn btn-dark mt-3 mb-5" >Atrás</button>
+                <button class="btn btn-dark">Atrás</button>
             </form>
-            
-            
         </div>
     </div>
 </main>
+
+
+
 
 {% endblock %}
 

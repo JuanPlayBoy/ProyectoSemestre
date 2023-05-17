@@ -15,13 +15,18 @@
                     <option value="{{ invitado.pk }}">{{ invitado.nombre }}</option>
                   {% endfor %}
                 </select>
-                <button class="btn btn-primary mt-3">Guardar</button>
+                <br>
+                <button class="btn btn-primary mt-3">Aplicar Cambios</button>
             </form>
             
             <form action="{% url 'reminder_eliminar' reminder.id reminder.evento.id %}"  method="post">
                 {% csrf_token %}
                 <button class="btn btn-danger mt-1">Eliminar</button>
             </form>
+
+            <a href="{% url 'send_email' reminder.id %} " class="btn btn-success mt-1 mb-4">Enviar correo electrónico</a>
+
+            
 
 
     

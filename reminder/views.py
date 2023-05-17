@@ -36,7 +36,7 @@ def reminder_crear(request, evento_id):
                 invitados = evento.invitado_set.all()
             reminder.save()
             reminder.invitado.set(invitados)
-            return redirect('reminders', evento_id=evento_id)
+            return redirect(reverse('reminder_detail', args=[reminder.id, evento_id]), evento_id=evento_id)
     else:
         form = FormularioReminder(invitado_choices=evento.invitado_set.all())
 
@@ -64,7 +64,7 @@ def reminder_detail(request, reminder_id, evento_id):
             reminder.evento = evento
             reminder.save()
             form.save_m2m()
-            return redirect(reverse('reminders', args=[evento_id]))
+            return redirect(reverse('reminder_detail', args=[reminder.id, evento_id]), evento_id=evento_id)
         else:
             invitados = Invitado.objects.filter(reminder=reminder)
             return render(request, 'reminder_detail.html', {

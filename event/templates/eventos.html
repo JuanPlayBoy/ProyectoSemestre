@@ -8,7 +8,7 @@
             <h1 class="mt-5 text-center display-3">Eventos</h1>
             <ul class="list-group">
                 {% for evento in eventos %}
-                <a href="{% url 'evento_detail' evento.id %}" class="list-group-item "> 
+                <a href="{% url 'evento_detail' evento.id %}" class="list-group-item"> 
                     
                     <header class="d-flex justify-content-between">
                         <h1 class="fw-bold-3"> {{evento.nombre}}</h1>
@@ -23,16 +23,18 @@
                     <p> {{evento.descripcion}} </p>
                 
 
-                    <div class="justify-content-end">
+                    <div class="justify-content-end  mb-5">
                         <a href="{% url 'invitados' evento.id %}">
                             <button class="btn btn-success mt-2 me-5 d-inline-block">Ver Invitados</button>
                         </a>
                         <a href="{% url 'reminders' evento_id=evento.id %}">
                             <button class="btn btn-success mt-2 ms-5 d-inline-block ">Revisar Notificaciones</button>
                         </a>
+                        {% if '/eventos-completos/' not in request.path %}
                         <a href="{% url 'reminder_crear' evento_id=evento.id %}">
                             <button class="btn btn-success mt-2  d-inline-block">Enviar Notificación</button>
                         </a>
+                        {% endif %}
                     </div>
                     
                 </a>
