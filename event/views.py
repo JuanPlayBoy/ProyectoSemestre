@@ -25,23 +25,23 @@ def eventos_completados(request):
 
 @login_required
 def evento_crear(request):
-
     if request.method == 'GET':
         return render(request, 'evento_crear.html', {
-            'form': FormularioEvento
+            'form': FormularioEvento()
         })
     else:
-        try:
-            form = FormularioEvento(request.POST)
+        form = FormularioEvento(request.POST)
+        if form.is_valid():
             new_event = form.save(commit=False)
             new_event.user = request.user
             new_event.save()
             return redirect('eventos')
-        except ValueError:
-            return render(request, 'evento_crear.html', {
-                'form': FormularioEvento,
-                'error': 'Por favor, ingrese datos validos'
-            })
+        return render(request, 'evento_crear.html', {
+            'form': form,
+            
+        })
+
+
 
 
 @login_required

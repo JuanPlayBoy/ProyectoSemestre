@@ -9,12 +9,43 @@
             <form action="/eventos/crear/" method="POST" class="card card-body">
                 {% csrf_token %}
 
-                {{form}}
+                <div class="form-group">
+                    {{ form.nombre.label_tag }}
+                    {{ form.nombre }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.descripcion.label_tag }}
+                    {{ form.descripcion }}
+                </div>
+                             
+                
+                <div class="form-group">
+                    <label for="{{ fecha }}">Fecha del Evento</label>
+                    {{ form.fecha }}
+                    {% if form.fecha.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.fecha.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.ubicacion.label_tag }}
+                    {{ form.ubicacion }}
+                </div>
 
                 <button class=" btn btn-primary mt-3 mb-5">Crear</button>
 
             </form>
+            <form action="{% url 'eventos' %}"  method="POST" class="mt-2">
+                {% csrf_token %}              
+                <button class="btn btn-dark">Atrás</button>
+            </form>
         </div>
+
     </div>
 </main>
 {% endblock %}

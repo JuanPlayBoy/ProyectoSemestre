@@ -58,30 +58,27 @@ def crear_task(request):
     eventos = Evento.objects.filter(user=request.user, fecha__gte=date.today())
     if request.method == 'GET':
         form = TaskForm(user=request.user)
-        # Aquí se filtran los eventos del usuario actual
         form.fields['evento'].queryset = Evento.objects.filter(user=request.user)
         return render(request, 'crear_tasks.html', {
             'form': form,
             'eventos': eventos
         })
     else:
-        try:
-            form = TaskForm(request.POST, user=request.user)
-            # Aquí se vuelve a filtrar los eventos del usuario actual
-            form.fields['evento'].queryset = Evento.objects.filter(user=request.user)
+        form = TaskForm(request.POST, user=request.user)
+        form.fields['evento'].queryset = Evento.objects.filter(user=request.user)
+        if form.is_valid():
             new_task = form.save(commit=False)
             new_task.user = request.user
             new_task.evento = form.cleaned_data['evento']
             new_task.asignado_a = form.cleaned_data['asignado_a']
             new_task.save()
             return redirect('tasks')
-        
-        except ValueError:
+        else:
             return render(request, 'crear_tasks.html', {
-                'form': TaskForm(user=request.user),
-                'error': 'Por favor, ingrese datos validos',
+                'form': form,
                 'eventos': eventos
             })
+
 
 
 
@@ -170,6 +167,7 @@ def user_tasks_completed(request):
     tareas_asignadas = Task.objects.filter(asignado_a=request.user, fechaTer__isnull=False)
     return render(request, 'tasks.html', {'tareas': tareas_asignadas, 'eventos': Evento})
 
+@login_required
 def complete_task_assigned(request, task_id):
     tarea = get_object_or_404(Task, pk=task_id, asignado_a=request.user)
 

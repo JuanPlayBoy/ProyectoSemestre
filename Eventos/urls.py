@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from tasks.views import home, signup, signin, signout, tasks,  task_detail, crear_task, rehacer_task, tasks_completed, delete_task, complete_task, user_tasks, complete_task_assigned, user_tasks_completed
 from event.views import evento_crear, evento_eliminar, eventos,task_por_evento, descarga_csv,user_por_evento, evento_detail, eventos_completados
-from invitados.views import invitados, invitado_crear, invitado_detail, invitado_eliminar, descargar_lista_invitados 
+from invitados.views import invitados, invitado_crear, invitado_detail, invitado_eliminar, descargar_lista_invitados, subir_invitados, procesar_archivo_csv 
 from reminder.views import reminders, reminder_crear, reminder_detail, reminder_eliminar, send_email, email_redirect
 from django.conf import settings
 from django.conf.urls.static import static
@@ -60,10 +60,11 @@ urlpatterns = [
     #Para invitados
     path('invitados/<int:evento_id>/', invitados, name= 'invitados'),
     path('invitados/crear/<int:evento_id>/', invitado_crear, name = 'invitado_crear'),
-    #path('invitados/crear/', invitado_crear, name = 'invitado_crear'),
     path('invitados/detail/<int:invitado_id>/<int:evento_id>/', invitado_detail, name = 'invitado_detail'),
     path('invitados/elimar/<int:invitado_id>/<int:evento_id>/', invitado_eliminar, name = 'invitado_eliminar'),
     path('invitados/descarga_invitados/<int:evento_id>/', descargar_lista_invitados, name='descargar_lista_invitados'),
+    path('invitados/subir_invitados/<int:evento_id>/', subir_invitados, name='subir_invitados'),
+    path('procesar_archivo_csv/<evento_id>/', procesar_archivo_csv, name='procesar_archivo_csv'),
 
     #Para REMINDER 
     path('reminders/<int:evento_id>/', reminders, name='reminders'),

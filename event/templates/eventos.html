@@ -6,6 +6,13 @@
     <div class="row">
         <div class="col-md-10 offset-md-1 ">
             <h1 class="mt-5 text-center display-3">Eventos</h1>
+            {% if '/eventos-completos/' not in request.path %}
+            <form action="{% url 'eventos_completados' %}"  method="POST">
+                {% csrf_token %}              
+                <button class="btn btn-warning fw-bold mb-3" >Revisar Eventos Anteriores</button>
+            </form>
+
+        {% endif %}
             <ul class="list-group">
                 {% for evento in eventos %}
                 <a href="{% url 'evento_detail' evento.id %}" class="list-group-item"> 
@@ -25,7 +32,11 @@
 
                     <div class="justify-content-end  mb-5">
                         <a href="{% url 'invitados' evento.id %}">
-                            <button class="btn btn-success mt-2 me-5 d-inline-block">Ver Invitados</button>
+                            <button class="btn btn-outline-success mt-2 me-1 d-inline-block fw-bold">Ver Invitados</button>
+                        </a>
+                        <a href="{% url 'task_por_evento' evento.id %}">
+                            {% csrf_token %}              
+                            <button class="btn btn-outline-success mt-2 me-5 fw-bold">Ver Tareas del Evento</button>
                         </a>
                         <a href="{% url 'reminders' evento_id=evento.id %}">
                             <button class="btn btn-success mt-2 ms-5 d-inline-block ">Revisar Notificaciones</button>
@@ -45,14 +56,6 @@
                 {% csrf_token %}
                 <button class="btn btn-primary mt-3">Añadir Nuevo Evento</button>
             </form>
-
-            {% if '/eventos-completos/' not in request.path %}
-                <form action="{% url 'eventos_completados' %}"  method="POST">
-                    {% csrf_token %}              
-                    <button class="btn btn-secondary mt-3 mb-5" >Revisar Eventos Anteriores</button>
-                </form>
-
-            {% endif %}
 
             {% if '/eventos/' not in request.path %}
                 <form action="{% url 'eventos' %}"  method="POST">

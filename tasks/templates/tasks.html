@@ -4,7 +4,11 @@
 <main class="container">
     <div class="row">
         <div class="col-md-12">
-            <h1 class="mt-5 text-center display-3">Tareas</h1>
+            {% if "/tasks-completas/" not in request.path %}
+            <h1 class="mt-5 text-center display-3">Todas Mis Tareas Pendientes</h1>
+            {% else %}
+            <h1 class="mt-5 text-center display-3">Todas Mis Tareas Terminadas</h1>
+            {% endif %}
             <div class="d-flex">
                 {% if "/user/" not in request.path %}
                 <form action="{% url 'user_tasks' %}"  method="POST">
@@ -38,7 +42,7 @@
                             <h1 class="fw-bold-3"> {{task.title}}</h1>
                         
                         {% endif %}
-                        <p class="mt-2"> {{task.evento.nombre}} - {{task.user.username}} </p>
+                        <p class="mt-2"> <strong>{{task.evento.nombre}}</strong> - {{task.user.username}} </p>
                     </header>
                 
                     <p> {{task.descripcion}} </p>

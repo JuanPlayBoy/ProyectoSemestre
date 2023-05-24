@@ -1,6 +1,6 @@
 
 from django.shortcuts import get_object_or_404, render, redirect
-from .forms import FormularioReminder
+
 from .forms import FormularioReminderEntrada
 from django.contrib.auth.decorators import login_required
 from .models import Evento
@@ -105,23 +105,22 @@ def reminder_eliminar(request, reminder_id, evento_id):
     if request.method == 'POST':
         reminder.delete()
         return redirect(reverse('reminders', args=[evento_id]))
-    
+
+@login_required   
 def send_email(request, reminder_id):
     reminder = get_object_or_404(Reminder, id=reminder_id)
     to_list = [invitado.correo for invitado in reminder.invitado.all()]
 
     subject = reminder.asunto
     body = reminder.descripcion
-    to = ','.join(to_list)
+    to = ';'.join(to_list)
     url = f"mailto:{to}?subject={subject}&body={body}"
 
-    intermediate_url = f"/email_redirect?url={url}"
+    intermediate_url = f"/email_redirect/?url={url}"
     return redirect(intermediate_url)
 
 
-
-
-@login_required 
+@login_required
 def email_redirect(request):
     url = request.GET.get('url')
     return render(request, 'email_redirect.html', {'url': url})

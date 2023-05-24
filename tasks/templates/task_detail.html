@@ -74,6 +74,11 @@
             </form>
             {% endif %}
 
+            <form action="{% url 'tasks' %}"  method="POST" class="">
+                {% csrf_token %}              
+                <button class="btn btn-dark">Atrás</button>
+            </form>
+
 
         </div>
     </div>

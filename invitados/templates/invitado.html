@@ -13,9 +13,9 @@
                     <header class="d-flex justify-content-between">
                         <h1 class="fw-bold-3"> {{invitado.nombre}}</h1>
                         {% if invitado.respuesta == "SI" %}
-                            <p class="mt-2" style="color: rgb(5, 121, 22);">ASISTE</p>
+                            <p class="mt-2 fw-bold" style="color: rgb(5, 121, 22);">ASISTE</p>
                         {% else %}
-                            <p class="mt-2" style="color: rgb(172, 9, 9);">FALTA</p>
+                            <p class="mt-2 fw-bold" style="color: rgb(172, 9, 9);">FALTA</p>
                         {% endif %}
                     </header>
 
@@ -38,6 +38,7 @@
 
 
             {% endif %}
+
         </div>
     </div>
 </main>

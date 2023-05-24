@@ -35,6 +35,13 @@
                             {% csrf_token %}              
                             <button class="btn btn-success">Agregar Invitados</button>
                         </form>
+                        
+                        <form method="post" action="{% url 'subir_invitados' evento.id %}" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            
+                            <a href="#" id="subir-archivo-csv" class="btn btn-outline-success me-2">Subir archivo CSV</a>
+                          </form>
+
                     {% endif %}
 
                     <form action="{% url 'descargar_lista_invitados' evento.id %}"  method="POST">
@@ -52,7 +59,50 @@
     </div>
 </main>
 
-
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var subirArchivoBtn = document.getElementById('subir-archivo-csv');
+      
+      subirArchivoBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        var input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.csv';
+        input.style.display = 'none';
+        
+        input.addEventListener('change', function(e) {
+          var file = e.target.files[0];
+          if (file) {
+            // Aquí puedes enviar el archivo CSV al servidor para su procesamiento
+            var formData = new FormData();
+            formData.append('archivo_csv', file);
+            
+            fetch('/procesar_archivo_csv/<evento_id>/', {
+              method: 'POST',
+              body: formData
+            })
+            .then(function(response) {
+              // Manejar la respuesta del servidor
+              if (response.ok) {
+                // Procesamiento exitoso del archivo CSV
+                console.log('Archivo CSV subido y procesado correctamente.');
+              } else {
+                // Manejar errores en el procesamiento del archivo CSV
+                console.error('Error al subir o procesar el archivo CSV.');
+              }
+            })
+            .catch(function(error) {
+              console.error('Error en la solicitud:', error);
+            });
+          }
+        });
+        
+        document.body.appendChild(input);
+        input.click();
+        document.body.removeChild(input);
+      });
+    });
+    </script>
 
 
 {% endblock %}

@@ -9,17 +9,60 @@
       <form method="POST">
         {% csrf_token %}
         
-          {{ form }}
+        <div class="form-group">
+          <label for="{{ form.asunto.id_for_label }}">Título</label>
+          {{ form.asunto }}
+        </div>
 
-        <button type="submit" class="btn btn-primary">Guardar</button>
+        <div class="form-group">
+          <label for="{{ form.descripcion.id_for_label }}">Descripción</label>
+          {{ form.descripcion }}
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.invitados.id_for_label }}">Seleccione los Destinatarios de la Notificación</label>
+
+          {{ form.invitados }}
+          <small id="invitadosHelp" class="form-text text-muted">Puede seleccionar varios invitados manteniendo presionada la tecla Ctrl.</small>
+        </div>
+        <div class="mb-2">
+          <button type="button" onclick="seleccionarTodos()" class="btn btn-outline-success">Seleccionar Todos</button>
+        </div>
+        
+        <button type="submit" class="btn btn-primary mt-4">Guardar</button>
       </form>
 
       <form action="{% url 'eventos' %}" method="POST">
         {% csrf_token %}
-        <button class="btn btn-dark mt-3">Atrás</button>
+        <button class="btn btn-dark mt-1">Atrás</button>
       </form>
     </div>
   </div>
 </main>
+
+<script>
+  function seleccionarTodos() {
+    var invitadosSelect = document.getElementById("id_invitados");
+    var invitadosOptions = invitadosSelect.options;
+
+    for (var i = 0; i < invitadosOptions.length; i++) {
+      invitadosOptions[i].selected = true;
+    }
+  }
+
+  function eliminarInvitado(inviteId) {
+    var invitadoElement = document.getElementById("invitado-" + inviteId);
+    invitadoElement.remove();
+  }
+</script>
+
+<style>
+  .eliminar {
+    cursor: pointer;
+    color: red;
+    margin-left: 5px;
+  }
+</style>
 {% endblock %}
+
 

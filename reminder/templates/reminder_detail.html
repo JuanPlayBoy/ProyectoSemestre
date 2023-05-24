@@ -1,40 +1,104 @@
 {% extends 'base.html' %}
 
-{% block content%}
+{% block content %}
 <main class="container">
-    <div class="row">
-        <div class="col-md-8 offset-md-2">
-            <h1 class="display-1 text-center mt-5">{{reminder.asunto}}</h1>           
-            <form action="{% url 'reminder_detail' reminder.id reminder.evento.id %}" method="POST">
-                {% csrf_token %}
-                {{form}}
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h1 class="display-1 text-center mt-5">{{reminder.asunto}}</h1>
 
-                <label for="id_invitado">Invitados:</label>
-                <select name="invitado" id="id_invitado">
-                  {% for invitado in invitados %}
-                    <option value="{{ invitado.pk }}">{{ invitado.nombre }}</option>
-                  {% endfor %}
-                </select>
-                <br>
-                <button class="btn btn-primary mt-3">Aplicar Cambios</button>
-            </form>
-            
-            <form action="{% url 'reminder_eliminar' reminder.id reminder.evento.id %}"  method="post">
-                {% csrf_token %}
-                <button class="btn btn-danger mt-1">Eliminar</button>
-            </form>
-
-            <a href="{% url 'send_email' reminder.id %} " class="btn btn-success mt-5 mb-4">Enviar correo electrónico</a>
-
-            <form action="{% url 'reminders' evento.id %}"  method="post">
-                {% csrf_token %}
-                <button class="btn btn-dark mt-1 mb-5">Atrás</button>
-            </form>
-
-
-    
+      <form method="POST">
+        {% csrf_token %}
+        
+        <div class="form-group">
+          <label for="{{ form.asunto.id_for_label }}">Título</label>
+          {{ form.asunto }}
         </div>
-    </div>
-</main>
 
+        <div class="form-group mt-2">
+          <label for="{{ form.descripcion.id_for_label }}">Descripción</label>
+          {{ form.descripcion }}
+        </div>
+
+        <div class="form-group mt-2">
+          <label for="{{ form.invitados.id_for_label }}">Seleccione los Destinatarios de la Notificación</label>
+
+          {{ form.invitados }}
+          <small id="invitadosHelp" class="form-text text-muted">Puede eliminar o agregar varios invitados manteniendo presionada la tecla Ctrl, se eliminan los invitados existentes que se vuelvan a seleccionar.</small>
+        </div>
+        
+        <label for="id_invitados_seleccionados">Invitados seleccionados:</label>
+        <ul id="invitados-seleccionados">
+          {% for invitado in reminder.invitado.all %}
+            <li id="invitado-{{ invitado.pk }}">
+              {{ invitado.nombre }}
+            </li>
+          {% endfor %}
+        </ul>
+        <div class="mb-2 mt-2">
+            <button type="button" onclick="seleccionarTodos()" class="btn btn-outline-success">Seleccionar Todos</button>
+          </div>
+
+        <button type="submit" class="btn btn-primary mt-4">Aplicar Cambios</button>
+      </form>
+
+      <form action="{% url 'reminder_eliminar' reminder.id reminder.evento.id %}" method="post">
+        {% csrf_token %}
+        <button class="btn btn-danger mt-1">Eliminar</button>
+      </form>
+
+      <a href="{% url 'send_email' reminder.id %} " class="btn btn-success mt-5 mb-4">Enviar correo electrónico</a>
+
+      <form action="{% url 'reminders' evento.id %}" method="post">
+        {% csrf_token %}
+        <button class="btn btn-dark mt-1 mb-5">Atrás</button>
+      </form>
+
+
+
+    </div>
+  </div>
+</main>
+<script>
+    function seleccionarTodos() {
+      var invitadosSelect = document.getElementById("id_invitados");
+      var invitadosOptions = invitadosSelect.options;
+  
+      for (var i = 0; i < invitadosOptions.length; i++) {
+        invitadosOptions[i].selected = true;
+      }
+    }
+
+  // Mostrar los invitados seleccionados al cargar la página
+  document.addEventListener('DOMContentLoaded', function() {
+    var invitadosSelect = document.getElementById("id_invitados");
+    var invitadosSeleccionados = document.getElementById("invitados-seleccionados");
+    
+    for (var i = 0; i < invitadosSelect.options.length; i++) {
+      var option = invitadosSelect.options[i];
+      
+      if (option.selected) {
+        var invitadoId = option.value;
+        var invitadoNombre = option.text;
+        
+        var li = document.createElement("li");
+        li.id = "invitado-" + invitadoId;
+        li.innerHTML = invitadoNombre + '<span class="eliminar" onclick="eliminarInvitado(\'' + invitadoId + '\')">x</span>';
+        
+        invitadosSeleccionados.appendChild(li);
+      }
+    }
+  });
+</script>
+  
+  <style>
+    .eliminar {
+      cursor: pointer;
+      color: red;
+      margin-left: 5px;
+    }
+  </style>
 {% endblock %}
+
+
+
+
