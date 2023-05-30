@@ -56,14 +56,15 @@ def invitado_detail(request, invitado_id, evento_id):
         invitado = get_object_or_404(Invitado, pk=invitado_id)
         evento = get_object_or_404(Evento, pk=evento_id)
         form = FormularioInvitado(instance=invitado)
-        return render(request, 'invitado', {'invitado': invitado, 'form': form, 'evento': evento})
+        return render(request, 'invitado_detail.html', {'invitado': invitado, 'form': form, 'evento': evento})
     else:
         try:
             invitado = get_object_or_404(Invitado, pk=invitado_id)
             evento = get_object_or_404(Evento, pk=evento_id)
             form = FormularioInvitado(request.POST, instance=invitado)            
             form.save()
-            return redirect(reverse('invitados', args=[evento_id]), evento_id=evento_id)
+            messages.success(request, 'Invitado actualizado correctamente.')
+            return render(request, 'invitado_detail.html', {'invitado': invitado, 'form': form, 'evento': evento})
         except ValueError:
             return render (request, 'invitado_detail.html', {
                 'invitado': invitado, 
@@ -77,7 +78,7 @@ def invitado_eliminar(request, invitado_id, evento_id):
     invitado = get_object_or_404(Invitado, pk=invitado_id)
     if request.method == 'POST':
         invitado.delete()
-        return redirect(reverse('invitado_delete', args=[invitado_id, evento_id]))
+        return redirect('invitados', evento_id=evento_id)
     
     
 

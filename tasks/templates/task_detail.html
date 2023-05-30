@@ -41,6 +41,13 @@
                     {{ form.asignado_a.label_tag }}
                     {{ form.asignado_a }}
                 </div>
+                {% if messages %}
+                    <div class="messages">
+                        {% for message in messages %}
+                            <p {% if message.tags %} class="{{ message.tags }} fw-bold"{% endif %}>{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
 
                 {% if editable %}
                 <button class="btn btn-primary mt-3">Guardar</button>

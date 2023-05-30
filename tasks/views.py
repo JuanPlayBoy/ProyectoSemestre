@@ -1,4 +1,5 @@
 from datetime import date
+from django.contrib import messages
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
@@ -11,6 +12,7 @@ from .froms import TaskForm
 from .models import Task
 from django.utils import timezone
 from django.http import HttpResponseRedirect
+import time
 # Create your views here.
 
 
@@ -98,7 +100,8 @@ def task_detail(request, task_id):
         form = TaskForm(request.POST, instance=task, user=request.user)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('tasks'))
+            messages.success(request, 'Tarea actualizada correctamente.')           
+            return redirect('task_detail', task_id=task_id )
     else:
         form = TaskForm(instance=task, user=request.user)
 

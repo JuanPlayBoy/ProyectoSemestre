@@ -8,12 +8,24 @@
             <form action="{% url 'invitado_detail' invitado.id invitado.evento.id %}" method="POST">
                 {% csrf_token %}
                 {{form}}
+                {% if messages %}
+                    <div class="messages">
+                        {% for message in messages %}
+                            <p {% if message.tags %} class="{{ message.tags }} fw-bold"{% endif %}>{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
                 <button class="btn btn-primary mt-3">Guardar</button>
             </form>
             
             <form action="{% url 'invitado_eliminar' invitado.id invitado.evento.id %}"  method="post">
                 {% csrf_token %}
                 <button class="btn btn-danger mt-1">Eliminar</button>
+            </form>
+
+            <form action="{% url 'invitados' evento.id %}"  method="POST">
+                {% csrf_token %}              
+                <button class="btn btn-dark mt-3 mb-5" >Atrás</button>
             </form>
 
         </div>
